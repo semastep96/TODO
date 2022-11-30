@@ -1,0 +1,31 @@
+.form {
+  position: relative;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.form .input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #989898;
+  border-radius: 6px;
+}
+
+.form .button {
+  border: none;
+  background-color: transparent;
+  color: #998899;
+  font-weight: 300;
+  font-size: 25px;
+  cursor: pointer;
+  transition: 0.2s;
+  padding: 2px 8px;
+  border-radius: 4px;
+  position: absolute;
+  right: 12px;
+  top: 7px;
+}
+
+.form .button:hover {
+  background-color: rgb(236, 236, 236);
+}
