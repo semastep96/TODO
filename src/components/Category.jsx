@@ -12,9 +12,11 @@ import {
 } from "../store/actions/actions";
 
 const Category = ({ name, placeholder }) => {
-  const tasks = useSelector(tasksSelector).filter(
+  const tasks = useSelector(tasksSelector).todos.filter(
     (task) => task.category === name
   );
+  const { isLoading, error } = useSelector(tasksSelector);
+
   const dispatch = useDispatch();
 
   function addTask(text) {
@@ -36,12 +38,17 @@ const Category = ({ name, placeholder }) => {
     return [...workTasks, ...doneTasks];
   }
 
+  if (error) {
+    alert(error);
+  }
+
   return (
     <div className="category">
       <div className="category-title">
         <h2>{name.toUpperCase()}</h2>
       </div>
       <Input placeholder={placeholder} addTask={addTask} />
+      {isLoading? "Loading more todos..." : null}
       {orderTasks().map((task) => (
         <Item
           task={task}

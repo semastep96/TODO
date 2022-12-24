@@ -1,4 +1,11 @@
-import { ADD_TASK, DELETE_TASK, TOGGLE_TASK } from "./actionTypes";
+import {
+  ADD_TASK,
+  DELETE_TASK,
+  FETCH_TASKS,
+  FETCH_TASKS_ERROR,
+  FETCH_TASKS_SUCCESS,
+  TOGGLE_TASK,
+} from "./actionTypes";
 
 const addTask = ({ text, category }) => {
   const id = text + new Date() + Math.random();
@@ -19,5 +26,29 @@ const toggleTask = (id) => {
     payload: { id },
   };
 };
+const fetchTasks = () => {
+  return {
+    type: FETCH_TASKS,
+  };
+};
+const fetchTasksSuccess = (payload) => {
+  return {
+    type: FETCH_TASKS_SUCCESS,
+    payload,
+  };
+};
+const fetchTasksError = (payload) => {
+  return {
+    type: FETCH_TASKS_ERROR,
+    payload,
+  };
+};
 
-export { addTask, deleteTask, toggleTask };
+export {
+  addTask,
+  deleteTask,
+  toggleTask,
+  fetchTasks,
+  fetchTasksSuccess,
+  fetchTasksError,
+};
