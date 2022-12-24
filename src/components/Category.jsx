@@ -3,29 +3,30 @@ import "./Category.css";
 import PropTypes from "prop-types";
 import { Input } from "./Input";
 import { Item } from "./Item";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { tasksSelector } from "../store/selectors";
+import {
+  addTask as addTaskAction,
+  deleteTask as deleteTaskAction,
+  toggleTask as toggleTaskAction,
+} from "../store/actions/actions";
 
 const Category = ({ name, placeholder }) => {
-  const [tasks, setTasks] = useState([]);
+  const tasks = useSelector(tasksSelector).filter(
+    (task) => task.category === name
+  );
+  const dispatch = useDispatch();
 
   function addTask(text) {
-    const id = text + new Date() + Math.random();
-    setTasks([...tasks, { id, text, done: false }]);
+    dispatch(addTaskAction({ text, category: name }));
   }
 
   function toggleTask(id) {
-    setTasks(
-      tasks.map((task) => {
-        if (task.id == id) {
-          task.done = !task.done;
-        }
-        return task;
-      })
-    );
+    dispatch(toggleTaskAction(id));
   }
 
   function deleteTask(id) {
-    setTasks(tasks.filter((task) => task.id !== id));
+    dispatch(deleteTaskAction(id));
   }
 
   function orderTasks() {
