@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { logger } from "./middlewares/logger";
-import { reducer } from "./reducers/reducer";
+import { tasks } from "./reducers/tasks";
 
 const store = configureStore({
-  reducer,
+  reducer: { tasks },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-
 });
 
 export { store };
