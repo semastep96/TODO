@@ -1,9 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { logger } from "./middlewares/logger";
-import { tasks } from "./reducers/tasks";
+import tasksReducer from "./slices/tasks";
+
+const reducer = combineReducers({
+  tasks: tasksReducer,
+});
 
 const store = configureStore({
-  reducer: { tasks },
+  reducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 

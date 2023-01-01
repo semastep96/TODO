@@ -9,7 +9,8 @@ import {
   addTask as addTaskAction,
   deleteTask as deleteTaskAction,
   toggleTask as toggleTaskAction,
-} from "../store/actions/actions";
+} from "../store/slices/tasks";
+import { createTodo } from "../helpers/Todo";
 
 const Category = ({ name, placeholder }) => {
   const tasks = useSelector(tasksSelector).todos.filter(
@@ -20,7 +21,7 @@ const Category = ({ name, placeholder }) => {
   const dispatch = useDispatch();
 
   function addTask(text) {
-    dispatch(addTaskAction({ text, category: name }));
+    dispatch(addTaskAction(createTodo(text, name)));
   }
 
   function toggleTask(id) {
@@ -48,7 +49,7 @@ const Category = ({ name, placeholder }) => {
         <h2>{name.toUpperCase()}</h2>
       </div>
       <Input placeholder={placeholder} addTask={addTask} />
-      {isLoading? "Loading more todos..." : null}
+      {isLoading ? "Loading more todos..." : null}
       {orderTasks().map((task) => (
         <Item
           task={task}
