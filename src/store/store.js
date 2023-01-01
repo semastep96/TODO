@@ -1,8 +1,14 @@
-import { applyMiddleware, createStore } from "redux";
-import thunk from "redux-thunk";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { logger } from "./middlewares/logger";
-import { reducer } from "./reducers/reducer";
+import tasksReducer from "./slices/tasks";
 
-const store = createStore(reducer, applyMiddleware(thunk, logger));
+const reducer = combineReducers({
+  tasks: tasksReducer,
+});
+
+const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+});
 
 export { store };
