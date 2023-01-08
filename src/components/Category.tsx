@@ -1,6 +1,5 @@
 import React from "react";
 import "./Category.css";
-import PropTypes from "prop-types";
 import { Input } from "./Input";
 import { Item } from "./Item";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +9,15 @@ import {
   deleteTask as deleteTaskAction,
   toggleTask as toggleTaskAction,
 } from "../store/slices/tasks";
-import { createTodo } from "../helpers/Todo";
+import { createTodo, TODO } from "../helpers/Todo";
 
-const Category = ({ name, placeholder }) => {
+interface CategoryProps {
+  name: string;
+  placeholder: string;
+}
+
+const Category = ({ name, placeholder }: CategoryProps) => {
+  const loadingMessage = "Loading more todos...";
   const tasks = useSelector(tasksSelector).todos.filter(
     (task) => task.category === name
   );
@@ -20,19 +25,19 @@ const Category = ({ name, placeholder }) => {
 
   const dispatch = useDispatch();
 
-  function addTask(text) {
+  function addTask(text: string): void {
     dispatch(addTaskAction(createTodo(text, name)));
   }
 
-  function toggleTask(id) {
+  function toggleTask(id: string): void {
     dispatch(toggleTaskAction(id));
   }
 
-  function deleteTask(id) {
+  function deleteTask(id: string): void {
     dispatch(deleteTaskAction(id));
   }
 
-  function orderTasks() {
+  function orderTasks(): TODO[] {
     const workTasks = tasks.filter((task) => !task.done);
     const doneTasks = tasks.filter((task) => task.done);
 
@@ -49,8 +54,8 @@ const Category = ({ name, placeholder }) => {
         <h2>{name.toUpperCase()}</h2>
       </div>
       <Input placeholder={placeholder} addTask={addTask} />
-      {isLoading ? "Loading more todos..." : null}
-      {orderTasks().map((task) => (
+      {isLoading ? loadingMessage : null}
+      {orderTasks().map((task): React.ReactElement => (
         <Item
           task={task}
           toggleTask={toggleTask}
@@ -60,11 +65,6 @@ const Category = ({ name, placeholder }) => {
       ))}
     </div>
   );
-};
-
-Category.propTypes = {
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
 };
 
 export { Category };

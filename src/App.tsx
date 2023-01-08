@@ -1,13 +1,13 @@
 import React from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import "./App.css";
 import { Category } from "./components/Category";
 import { CATEGORIES } from "./helpers/categories";
+import { useAppDispatch } from "./store/hook";
 import { fetchTasksAction } from "./store/thunks/fetchTasksAction";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchTasksAction());
   }, []);
