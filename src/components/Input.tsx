@@ -1,15 +1,19 @@
 import React from "react";
 import "./Input.css";
-import PropTypes from "prop-types";
 import { useState } from "react";
 
-const Input = ({ placeholder, addTask }) => {
+interface InputProps {
+  placeholder: string;
+  addTask: (text: string) => void;
+}
+
+const Input = ({ placeholder, addTask }: InputProps) => {
   const [text, setText] = useState("");
-  const onInput = (e) => {
+  const onInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setText(e.target.value);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit: React.FormEventHandler = (e) => {
     e.preventDefault();
     if (!text) {
       return;
@@ -32,11 +36,6 @@ const Input = ({ placeholder, addTask }) => {
       </button>
     </form>
   );
-};
-
-Input.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-  addTask: PropTypes.func.isRequired,
 };
 
 export { Input };

@@ -1,6 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TODO } from "../../helpers/Todo";
 
-const initialState = {
+interface TasksState {
+  isLoading: boolean;
+  error: null | string;
+  todos: TODO[];
+}
+
+const initialState: TasksState = {
   isLoading: false,
   error: null,
   todos: [],
@@ -14,26 +21,25 @@ const tasks = createSlice({
       state.isLoading = true;
       state.error = null;
     },
-    fetchTasksError: (state, action) => {
+    fetchTasksError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.isLoading = false;
     },
-    fetchTasksSuccess: (state, action) => {
+    fetchTasksSuccess: (state, action: PayloadAction<TODO[]>) => {
       state.isLoading = false;
       state.error = null;
-      state.isLoaded = true;
       state.todos = [...state.todos, ...action.payload];
     },
-    addTask: (state, action) => {
+    addTask: (state, action: PayloadAction<TODO>) => {
       state.todos.unshift(action.payload);
     },
-    deleteTask: (state, action) => {
+    deleteTask: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter((task) => task.id !== action.payload);
     },
-    toggleTask: (state, action) => {
+    toggleTask: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.map((task) => {
         if (task.id === action.payload) {
-          return { ...task, ...{ done: !task.done } };
+          return { ...task, done: !task.done };
         }
         return task;
       });
